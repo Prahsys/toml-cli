@@ -1,9 +1,9 @@
 [package]
-name = "toml-cli"
+name = "prahsys-toml"
 version = "0.2.3"
 description = "A simple CLI for editing and querying TOML files."
 authors = ["Greg Price <gnprice@gmail.com>"]
-repository = "https://github.com/gnprice/toml-cli"
+repository = "https://github.com/Prahsys/toml-cli"
 readme = "README.md"
 license = "MIT"
 
