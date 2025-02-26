@@ -4,27 +4,27 @@ This is the home of the `toml` command, a simple CLI for editing
 and querying TOML files.
 
 The intent of the `toml` command is to be useful
- * in shell scripts, for consulting or editing a config file;
- * and in instructions a human can follow for editing a config file,
-   as a command to copy-paste and run.
+
+- in shell scripts, for consulting or editing a config file;
+- and in instructions a human can follow for editing a config file,
+  as a command to copy-paste and run.
 
 A source of inspiration for the interface is the `git config` command,
 which serves both of these purposes very well without knowing anything
 about the semantics of Git config files -- only their general
 structure.
 
-A key property is that when editing, we seek to *preserve formatting
-and comments* -- the only change to the file should be the one the
-user specifically asked for.  To do this we rely on the `toml_edit`
-crate, which also underlies `cargo-edit`.  There are a few edge cases
+A key property is that when editing, we seek to _preserve formatting
+and comments_ -- the only change to the file should be the one the
+user specifically asked for. To do this we rely on the `toml_edit`
+crate, which also underlies `cargo-edit`. There are a few edge cases
 where `toml_edit` can rearrange an oddly-formatted file (described in
 the `toml_edit` documentation); but for typical TOML files, we
 maintain this property with perfect fidelity.
 
-The command's status is **experimental**.  The current interface does
+The command's status is **experimental**. The current interface does
 not yet serve its purposes as well as it could, and **incompatible
 changes** are anticipated.
-
 
 ## Installation
 
@@ -36,36 +36,32 @@ distribution.
 
 Currently no binaries are published for other platforms.
 Doing so for more platforms is a desired future step
-([#22], [#21], [#5]).  In the meantime, see Cargo instructions below.
+([#22], [#21], [#5]). In the meantime, see Cargo instructions below.
 
-[releases]: https://github.com/gnprice/toml-cli/releases
-
+[releases]: https://github.com/Prahsys/toml-cli/release
 
 ### Using Cargo
 
 If you have Cargo (the Rust build tool) installed, you can install the
 `toml` CLI by running:
+
 ```
-$ cargo install toml-cli
+$ cargo install prahsys-toml
 ```
 
 To install Cargo, follow the instructions [on rust-lang.org][install-rust].
 
 [install-rust]: https://www.rust-lang.org/learn/get-started
 
-[#5]: https://github.com/gnprice/toml-cli/issues/5
-[#21]: https://github.com/gnprice/toml-cli/issues/21
-[#22]: https://github.com/gnprice/toml-cli/issues/22
-
-
 ## Usage
 
 ### Reading: `toml get`
 
-To read specific data, pass a *TOML path*: a sequence of *path
-segments*, each of which is either:
- * `.KEY`, to index into a table or inline-table, or
- * `[INDEX]`, to index into an array-of-tables or array.
+To read specific data, pass a _TOML path_: a sequence of _path
+segments_, each of which is either:
+
+- `.KEY`, to index into a table or inline-table, or
+- `[INDEX]`, to index into an array-of-tables or array.
 
 Data is emitted by default as JSON:
 
@@ -101,6 +97,18 @@ To edit the data, pass a TOML path specifying where in the parse tree
 to put it, and then the data value to place there:
 
 ```
+$ toml set config.toml "db.seed.enabled" false
+//# outputs
+// [db.seed]
+// enabled = false
+
+$ toml set config.toml "db.seed.names" "["hello", "world"]"
+//# outputs
+// [db.seed]
+// names = ["hello"]
+```
+
+```
 $ cat >foo.toml <<EOF
 [a]
 b = "c"
@@ -115,9 +123,10 @@ y = "z"
 ```
 
 This subcommand is quite raw in two respects:
- * We don't actually edit the file; we only print out the new version.
- * The value to be set must be a string; input of booleans, arrays, etc.
-   is unimplemented.
+
+- We don't actually edit the file; we only print out the new version.
+- The value to be set must be a string; input of booleans, arrays, etc.
+  is unimplemented.
 
 ## Reference
 
